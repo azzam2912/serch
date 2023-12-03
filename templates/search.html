@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ query }}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body class="px-[0.5rem] py-[1rem] md:p-[2rem] bg-blue-100 h-screen">
+    <div class="flex flex-col gap-[1rem] md:gap-[2rem] px-[1rem] md:px-[4rem] h-full">
+        <!-- Search Bar -->
+        <div class="flex justify-between items-center md:gap-[2rem] w-full">
+            <div class="w-fit hidden md:block">
+                <h1 class="text-4xl font-bold font-exo hover:underline">
+                    <a href="/">
+                        SERCH
+                    </a>
+                </h1>
+            </div>
+            <div class="flex grow">
+                <form class="w-full flex" action="/search">
+                    <input class="grow p-[0.5rem] rounded-l-lg text-lg focus:outline-0" 
+                           type="text" id="search" placeholder="Search" 
+                           name="q" value="{{ query }}" required>
+                    <button class="md:w-1/6 p-[0.5rem] rounded-r-lg text-lg bg-blue-500
+                                   hover:shadow-xl hover:scale-125 duration-300
+                                   text-white text-center font-bold font-exo" 
+                            type="submit" id="submit">
+                        Serch
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- Search Bar -->
+
+
+        <!-- Results -->
+        <div class="flex flex-col gap-[2rem]  rounded-lg bg-white">
+            <!-- Query Results Object -->
+            <a href="/document/1" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam consectetur exercitationem tempore temporibus quia ab, libero itaque nemo eaque architecto autem corrupti repellendus nobis ducimus suscipit velit, minima placeat aperiam!</p>
+                </div>
+            </a>
+            <!-- Query Results Object -->
+
+            <a href="#" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adip!</p>
+                </div>
+            </a>
+            <a href="#" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam consectetur exercitationem tempore temporibus quia ab, libero itaque nemo eaque architecto autem corrupti repellendus nobis ducimus suscipit velit, minima placeat aperiam!</p>
+                </div>
+            </a>
+            <a href="#" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adip!</p>
+                </div>
+            </a>
+            <a href="#" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adip!</p>
+                </div>
+            </a>
+            <a href="#" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam consectetur exercitationem tempore temporibus quia ab, libero itaque nemo eaque architecto autem corrupti repellendus nobis ducimus suscipit velit, minima placeat aperiam!</p>
+                </div>
+            </a>
+            <a href="#" class="p-[1rem] hover:bg-slate-100">
+                <div>
+                    <h3 class="text-lg font-bold text-blue-500">Document X</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adip!</p>
+                </div>
+            </a>
+        </div>
+        <!-- Results -->
+
+
+        <!-- Pagination -->
+        <div class="flex justify-center pb-[1rem] md:pb-[2rem] gap-[2rem] w-full text-lg">
+            <a href="#" class="font-bold">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+        </div>
+        <!-- Pagination -->
+
+    </div>
+</body>
+</html>

@@ -4,10 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flowbite Flask</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+    <title>Serch</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;600;700&display=swap" rel="stylesheet">
+
 </head>
-<body>
-    <h1 class="text-blue-600">Hello, Flask!</h1>
+<body class="px-[0.5rem] py-[1rem] md:p-[2rem] bg-blue-100 h-screen">
+    <div class="flex flex-col justify-center gap-[4rem] px-[4rem] h-1/2">
+        <div class="flex justify-center w-full">
+            <h1 class="text-6xl font-bold font-exo">
+                <a href="/">
+                    SERCH
+                </a>
+            </h1>
+        </div>
+
+        <div class="w-full flex shadow-lg">
+            <form class="w-full flex" action="/search">
+                <input class="grow p-[1rem] rounded-l-lg text-lg focus:outline-0" 
+                       type="text" id="search" name="q" placeholder="Search" required>
+                <button class="md:w-1/6 p-[1rem] rounded-r-lg text-lg bg-blue-500
+                               hover:shadow-xl hover:scale-125 duration-300
+                               text-white text-center font-bold font-exo" 
+                        type="submit" id="submit">
+                    Serch
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
