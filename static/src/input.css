@@ -3,6 +3,23 @@
 @tailwind utilities;
 
 
+@layer base {
+    :root {
+        --text: #161717;
+        --background: #f3f4f6;
+        --primary: #2a3f55;
+        --secondary: #bbd0e9;
+        --accent: #2973c7;
+    }
+    .dark {
+        --text: #e7e8e8;
+        --background: #08090b;
+        --primary: #a8bdd4;
+        --secondary: #162c45;
+        --accent: #3984d7;
+    }
+}
+
 .font-exo {
     font-family: 'Exo', sans-serif;
 }

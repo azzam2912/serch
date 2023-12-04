@@ -1,0 +1,58 @@
+{% from "macros/svgs.html" import moon, sun %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/output.css')}}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body class="px-[0.5rem] py-[1rem] md:p-[2rem] bg-background h-screen transition-colors duration-500 {% block root_css %} {% endblock %}">
+    {% block content %} {% endblock %}
+
+    <div class="fixed bottom-[1rem] right-[2rem] w-[4rem] h-[4rem]">
+        <button onclick="toggleTheme()" 
+                class="w-full h-full transition duration-500 hover:-rotate-90">
+            <span id="sun">
+                {{ sun('w-full h-full') }}
+            </span>
+            <span class="hidden" id="moon">
+                {{ moon('w-full h-full') }}
+            </span>
+        </button>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            // Select the whole document
+            const doc = document.documentElement;
+            const sun = document.getElementById('sun');
+            const moon = document.getElementById('moon');
+
+            if (doc.classList.contains('dark')) {
+                doc.classList.remove('dark');
+                sun.classList.remove('hidden');
+                moon.classList.add('hidden');
+                localStorage.setItem('theme', 'light');
+            } else {
+                doc.classList.add('dark');
+                sun.classList.add('hidden');
+                moon.classList.remove('hidden');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+            toggleTheme();
+        }
+    </script>
+</body>
+</html>
