@@ -13,6 +13,7 @@ from tqdm import tqdm
 
 import nltk
 nltk.download("stopwords")
+
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 
