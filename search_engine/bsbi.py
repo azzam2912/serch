@@ -11,6 +11,8 @@ from search_engine.util import IdMap, count_bm25_score, count_tfidf_score, merge
 from search_engine.compression import VBEPostings
 from tqdm import tqdm
 
+import nltk
+nltk.download("stopwords")
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 
