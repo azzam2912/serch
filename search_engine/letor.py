@@ -11,9 +11,9 @@ from gensim.models import LsiModel
 from gensim.corpora import Dictionary
 from tqdm import tqdm
 
-from bsbi import BSBIIndex
-from compression import VBEPostings
-from util import count_bm25_score, count_tfidf_score
+from search_engine.bsbi import BSBIIndex
+from search_engine.compression import VBEPostings
+from search_engine.util import count_bm25_score, count_tfidf_score
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="gensim")
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="scipy")
