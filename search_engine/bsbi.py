@@ -11,8 +11,8 @@ from util import IdMap, count_bm25_score, count_tfidf_score, merge_and_sort_post
 from compression import VBEPostings
 from tqdm import tqdm
 
-from mpstemmer import MPStemmer
-from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
+from nltk.stem import SnowballStemmer
+from nltk.corpus import stopwords
 
 from operator import itemgetter
 
@@ -24,23 +24,30 @@ class BSBIIndex:
     term_id_map(IdMap): Untuk mapping terms ke termIDs
     doc_id_map(IdMap): Untuk mapping relative paths dari dokumen (misal,
                     /collection/0/gamma.txt) to docIDs
-    data_dir(str): Path ke data
+    data_file(str): Path ke data
     output_dir(str): Path ke output index files
     postings_encoding: Lihat di compression.py, kandidatnya adalah StandardPostings,
                     VBEPostings, dsb.
     index_name(str): Nama dari file yang berisi inverted index
+    block_size(int): Banyaknya jumlah dokumen yang diproses untuk setiap block
     """
 
-    def __init__(self, data_dir, output_dir, postings_encoding, index_name="main_index"):
+    def __init__(self, data_file, output_dir, postings_encoding, index_name="main_index", block_size=1000):
         self.term_id_map = IdMap()
         self.doc_id_map = IdMap()
-        self.data_dir = data_dir
+
+        self.data_file = data_file
         self.output_dir = output_dir
         self.index_name = index_name
+
+        self.block_size = block_size
         self.postings_encoding = postings_encoding
 
-        # Untuk menyimpan nama-nama file dari semua intermediate inverted index
         self.intermediate_indices = []
+
+        if not os.path.exists(self.output_dir):
+            os.makedirs(self.output_dir)
+
 
     def save(self):
         """Menyimpan doc_id_map and term_id_map ke output directory via pickle"""
@@ -67,15 +74,15 @@ class BSBIIndex:
         content = content.lower()
         tokens = re.findall(r'\w+', content)
 
-        stemmer = MPStemmer()
+        stemmer = SnowballStemmer('english')
         stemmed = [stemmer.stem(token) for token in tokens]
 
-        # remover = StopWordRemoverFactory().create_stop_word_remover()
-        # filtered = [remover.remove(token) for token in stemmed]
+        stop_words = set(stopwords.words('english'))
+        filtered = [word for word in stemmed if word not in stop_words]
 
-        return ' '.join(stemmed)
+        return ' '.join(filtered)
 
-    def parsing_block(self, block_path):
+    def parsing_block(self, block_num):
         """
         Lakukan parsing terhadap text file sehingga menjadi sequence of
         <termID, docID> pairs.
@@ -95,12 +102,8 @@ class BSBIIndex:
 
         Parameters
         ----------
-        block_path : str
-            Relative Path ke directory yang mengandung text files untuk sebuah block.
-
-            CATAT bahwa satu folder di collection dianggap merepresentasikan satu block.
-            Konsep block di soal tugas ini berbeda dengan konsep block yang terkait
-            dengan operating systems.
+        block_num : integer
+            Nomor block yang ingin diparsing
 
         Returns
         -------
@@ -115,17 +118,19 @@ class BSBIIndex:
         """
         td_pairs = []
 
-        files = os.listdir(os.path.join(self.data_dir, block_path))
-        for file in tqdm(sorted(files), leave=False):
-            with open(os.path.join(self.data_dir, block_path, file), 'r', encoding='utf-8') as f:
-                content = f.read()
-                content = self.pre_processing_text(content)
+        start = block_num * self.block_size
+        end = (block_num+1) * self.block_size 
+        files = self.data[start:end]
 
-                terms = content.split()
-                doc_id = self.doc_id_map[os.path.join(block_path, file)]
-                for term in terms:
-                    term_id = self.term_id_map[term]
-                    td_pairs.append((term_id, doc_id))
+        for file in tqdm(files, desc=f"Block {block_num}", leave=False):
+            real_doc_id, content = file.split(',', maxsplit=1)
+            content = self.pre_processing_text(content)
+
+            doc_id = self.doc_id_map[real_doc_id]
+            terms = content.split()
+            for term in terms:
+                term_id = self.term_id_map[term]
+                td_pairs.append((term_id, doc_id))
         
         return td_pairs
 
@@ -487,10 +492,15 @@ class BSBIIndex:
         untuk parsing dokumen dan memanggil write_to_index yang melakukan inversion
         di setiap block dan menyimpannya ke index yang baru.
         """
-        # loop untuk setiap sub-directory di dalam folder collection (setiap block)
-        for block_dir_relative in tqdm(sorted(next(os.walk(self.data_dir))[1])):
-            td_pairs = self.parsing_block(block_dir_relative)
-            index_id = 'intermediate_index_'+block_dir_relative
+        with open(self.data_file, 'r', encoding='utf-8') as f:
+            self.data = f.readlines()
+            if (self.data_file.endswith('.csv')):
+                self.data = self.data[1:]
+
+        blocks = len(self.data) // self.block_size + 1
+        for i in tqdm(range(blocks), desc="Indexing", leave=False):
+            td_pairs = self.parsing_block(i)
+            index_id = 'intermediate_index_'+str(i)
             self.intermediate_indices.append(index_id)
             with InvertedIndexWriter(index_id, self.postings_encoding, directory=self.output_dir) as index:
                 self.write_to_index(td_pairs, index)
@@ -507,7 +517,8 @@ class BSBIIndex:
 
 if __name__ == "__main__":
 
-    BSBI_instance = BSBIIndex(data_dir='collections',
+    BSBI_instance = BSBIIndex(data_file='search_engine/documents.csv',
+                              block_size=5000,
                               postings_encoding=VBEPostings,
-                              output_dir='index')
+                              output_dir='search_engine/index')
     BSBI_instance.do_indexing()  # memulai indexing!

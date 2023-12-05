@@ -1,5 +1,5 @@
 # Serch
-A simple [TODO: choose dataset] Search Engine.
+A simple Search Engine built on WikIR 1k English dataset.
 
 
 ## Contributors
@@ -24,3 +24,7 @@ python app.py
 
 ## Live Demo
 Soon!
+
+
+## References
+[WIKIR: A Python Toolkit for Building a Large-scale Wikipedia-based English Information Retrieval Dataset](https://aclanthology.org/2020.lrec-1.237) (Frej et al., LREC 2020)

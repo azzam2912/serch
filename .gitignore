@@ -1,3 +1,8 @@
+# Search Engines
+search_engine/index/intermediate_index_*
+search_engine/wikIR1k
+search_engine/wikIR1k.zip
+
 # Created by https://www.toptal.com/developers/gitignore/api/flask,python,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,node
 
