@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from search_engine.search import SearchClass
+
 app = Flask(__name__)
 
 @app.route("/")

@@ -1,10 +1,12 @@
 import re
-from bsbi import BSBIIndex
-from compression import VBEPostings
+from search_engine.bsbi import BSBIIndex
+from search_engine.compression import VBEPostings
+import sys
 
 # BSBI_instance = BSBIIndex(data_file='search_engine/documents.csv',
 #                           postings_encoding=VBEPostings,
 #                           output_dir='search_engine/index')
+
 
 # query = 'southern methodist university'
 # result = BSBI_instance.wand(query, "bm25")
