@@ -2,7 +2,7 @@ import math
 import pickle
 import os
 
-from util import count_bm25_score, count_tfidf_score
+from search_engine.util import count_bm25_score, count_tfidf_score
 
 
 class InvertedIndex:

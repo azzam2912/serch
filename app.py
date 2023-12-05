@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+from search_engine.search import SearchClass
 app = Flask(__name__)
 
 @app.route("/")
@@ -10,7 +10,9 @@ def index():
 @app.route("/search")
 def search():
 	query = request.args.get("q")
-	return render_template("search.html", query=query)
+	search_instance = SearchClass()
+	result = search_instance.retrieve_result(query=query)
+	return render_template("search.html", query=query, result=result)
 
 @app.route("/document/<id>")
 def document(id):
