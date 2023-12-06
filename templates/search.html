@@ -32,9 +32,12 @@
 
 
     <!-- Results -->
+    <h3 class="text-lg font-bold text-[#2a3f55] underline-offset-2 decoration-2
+            group-hover:text-accent hover:underline">
+            Showing {{ result_len }} result(s).
+        </h3>
     <div class="flex flex-col bg-gray-200 rounded-lg">
         <!-- Query Results Object -->
-        <h3>Showing {{ result_len }} result(s).</h3>
         <br/>
         {% for result_pair in result %}
         <div class="px-[1rem] py-[1.5rem] bg-gray-200 group hover:scale-[1.05] hover:bg-gray-300 first:rounded-t-lg last:rounded-b-lg">

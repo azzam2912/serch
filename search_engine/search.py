@@ -23,8 +23,8 @@ class SearchClass:
                           postings_encoding=VBEPostings,
                           output_dir='search_engine/index')
 
-    def retrieve_result(self, query):
-        result = self.BSBI_instance.wand(query, "bm25")
+    def retrieve_result(self, query, ):
+        result = self.BSBI_instance.retrieve_bm25(query)
         print(result)
         return result
     

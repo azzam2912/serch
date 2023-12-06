@@ -13,7 +13,7 @@ def search():
 	query = request.args.get("q")
 	search_instance = SearchClass()
 	result = search_instance.retrieve_result(query=query)
-	result = generate_result_slice(result, 50)
+	result = generate_result_slice(result, 150)
 	return render_template("search.html", query=query, result=result, result_len = len(result))
 
 def generate_result_slice(result, n_first_word=50):
@@ -32,7 +32,7 @@ def open_file(id):
             return inputFileHandle.read()
         
     except IOError:
-        return " file cannot be retrieved ..."
+        return " file cannot be retrieved "
     
 
 @app.route("/document/<id>")
