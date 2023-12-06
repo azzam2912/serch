@@ -14,7 +14,7 @@ def index():
 @app.route("/search")
 def search():
 	query = request.args.get("q")
-	result = SC.retrieve_result(query=query, k=1000)
+	result = SC.retrieve_result(query=query, k=100)
 	result_json = dumps(generate_result_slice(result, 150))
 	return render_template("search.html", query=query, result=result_json, result_len = len(result))
 
