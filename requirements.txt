@@ -12,3 +12,4 @@ python-Levenshtein==0.22.0
 rapidfuzz==3.3.1
 tqdm==4.66.1
 Werkzeug==3.0.1
+nltk==3.8.1
