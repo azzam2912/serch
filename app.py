@@ -25,8 +25,9 @@ def generate_result_slice(result, n_first_word=50):
         doc_id = doc_id.replace(".txt", "")
         doc_content = open_file(doc_id)
         doc_content = doc_content[:n_first_word] + " ... "
+        doc_block = doc_id.split("/")[0]
         doc_id = doc_id.split("/")[1]
-        new_result.append((score, doc_id, doc_content))
+        new_result.append((score, doc_block, doc_id, doc_content))
     return new_result
 
 def open_file(doc_id):

@@ -87,12 +87,12 @@ function changePage(page) {
     for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
         var htmlResult = `<div class='px-[1rem] py-[1.5rem] bg-gray-200 
             group hover:scale-[1.05] hover:bg-gray-300 first:rounded-t-lg last:rounded-b-lg'>
-            <a href='/document/${ data[i][1] }' 
+            <a href='/document/${ data[i][1] }/${ data[i][2] }' 
             class='text-lg font-bold text-[#2a3f55] underline-offset-2 decoration-2 group-hover:text-accent hover:underline'> 
-            Document ${data[i][1]}
+            Document ${data[i][2]}
             </a> 
             <p>
-                ${ data[i][2] }
+                ${ data[i][3] }
             </p>
         </div>
         <br/>`
