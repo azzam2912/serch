@@ -34,19 +34,21 @@
     <!-- Results -->
     <div class="flex flex-col bg-gray-200 rounded-lg">
         <!-- Query Results Object -->
-        {% for score_doc_pair in result %}
         <h3>Showing {{ result_len }} result(s).</h3>
+        <br/>
+        {% for result_pair in result %}
         <div class="px-[1rem] py-[1.5rem] bg-gray-200 group hover:scale-[1.05] hover:bg-gray-300 first:rounded-t-lg last:rounded-b-lg">
-            <a href="/document/{{ score_doc_pair[1] }}" 
+            <a href="/document/{{ result_pair[1] }}" 
                class="text-lg font-bold text-[#2a3f55] underline-offset-2 decoration-2
                       group-hover:text-accent hover:underline">
-                Document {{ score_doc_pair[1] }}
+                Document {{ result_pair[1] }}
             </a> 
-            <p class="text-xs">Retrieved with score {{ score_doc_pair[0]}}</p>
+            <!--<p class="text-xs">Retrieved with score {{ result_pair[0]}}</p>-->
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam consectetur exercitationem tempore temporibus quia ab, libero itaque nemo eaque architecto autem corrupti repellendus nobis ducimus suscipit velit, minima placeat aperiam!
+                {{ result_pair[2] }}
             </p>
         </div>
+        <br/>
         {% endfor %}
     </div>
     <!-- Results -->
