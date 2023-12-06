@@ -18,10 +18,11 @@ from search_engine.compression import VBEPostings
 #     print(data[doc_index])
 
 class SearchClass:
-    def __init__(self, data_file='search_engine/documents.csv'):
+    def __init__(self, data_file='wikIR1k/documents.csv'):
         self.BSBI_instance = BSBIIndex(data_file=data_file,
                           postings_encoding=VBEPostings,
-                          output_dir='search_engine/index')
+                          output_dir='search_engine/index',
+                          block_size=10000)
 
     def retrieve_result(self, query, ):
         result = self.BSBI_instance.retrieve_bm25(query)
