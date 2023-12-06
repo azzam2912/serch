@@ -1,7 +1,6 @@
 import re
 from search_engine.bsbi import BSBIIndex
 from search_engine.compression import VBEPostings
-import sys
 
 # BSBI_instance = BSBIIndex(data_file='search_engine/documents.csv',
 #                           postings_encoding=VBEPostings,
@@ -19,12 +18,15 @@ import sys
 #     print(data[doc_index])
 
 class SearchClass:
-    def __init__(self):
-        self.BSBI_instance = BSBIIndex(data_file='search_engine/documents.csv',
+    def __init__(self, data_file='search_engine/documents.csv'):
+        self.BSBI_instance = BSBIIndex(data_file=data_file,
                           postings_encoding=VBEPostings,
-                          output_dir='./search_engine/index')
+                          output_dir='search_engine/index')
 
     def retrieve_result(self, query):
         result = self.BSBI_instance.wand(query, "bm25")
         print(result)
         return result
+    
+    def do_indexing(self):
+        self.BSBI_instance.do_indexing()
