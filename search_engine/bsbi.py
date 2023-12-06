@@ -123,17 +123,29 @@ class BSBIIndex:
 
         start = block_num * self.block_size
         end = (block_num+1) * self.block_size 
-        files = self.data[start:end]
+        
+        for i in tqdm(range(start, end), desc=f"Block {block_num}", leave=False):
+            if i >= len(self.data):
+                break
 
-        for file in tqdm(files, desc=f"Block {block_num}", leave=False):
-            real_doc_id, content = file.split(',', maxsplit=1)
-            content = self.pre_processing_text(content)
+            _, content = self.data[i].split(',', maxsplit=1)
+            content = self.pre_processing_text(content.strip())
 
-            doc_id = self.doc_id_map[real_doc_id]
             terms = content.split()
+            doc_id = self.doc_id_map[str(i)]
             for term in terms:
                 term_id = self.term_id_map[term]
                 td_pairs.append((term_id, doc_id))
+
+        # for file in tqdm(files, desc=f"Block {block_num}", leave=False):
+        #     real_doc_id, content = file.split(',', maxsplit=1)
+        #     content = self.pre_processing_text(content.strip())
+
+        #     doc_id = self.doc_id_map[real_doc_id.strip()]
+        #     terms = content.split()
+        #     for term in terms:
+        #         term_id = self.term_id_map[term]
+        #         td_pairs.append((term_id, doc_id))
         
         return td_pairs
 
