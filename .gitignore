@@ -1,3 +1,5 @@
+*.csv
+
 # Search Engines
 search_engine/index/intermediate_index_*
 search_engine/wikIR1k
@@ -25,7 +27,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/

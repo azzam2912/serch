@@ -1,0 +1,1 @@
+the botnet supports a party line which is accessible via dcc chat and telnet people can communicate within the botnet on various channels in an equivalent to a miniature irc channel 0 the default is referred to as the party line over the years eggdrop has become one of the most popular bots run by irc users
