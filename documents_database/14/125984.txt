@@ -1,0 +1,1 @@
+this fact was observed by l h harper in 1967 the smallest zero is bounded from below in absolute value by although it is conjectured that the smallest zero grows linearly with the index n the mahler measure formula 14of the touchard polynomials can be estimated as follows frac lbrace textstyle n atop omega n rbrace binom n omega n le m t n le sqrt n 1 left

@@ -36,35 +36,91 @@
             group-hover:text-accent hover:underline">
             Showing {{ result_len }} result(s).
         </h3>
-    <div class="flex flex-col bg-gray-200 rounded-lg">
+    <div id="content" class="flex flex-col bg-gray-200 rounded-lg">
         <!-- Query Results Object -->
         <br/>
-        {% for result_pair in result %}
-        <div class="px-[1rem] py-[1.5rem] bg-gray-200 group hover:scale-[1.05] hover:bg-gray-300 first:rounded-t-lg last:rounded-b-lg">
-            <a href="/document/{{ result_pair[1] }}" 
-               class="text-lg font-bold text-[#2a3f55] underline-offset-2 decoration-2
-                      group-hover:text-accent hover:underline">
-                Document {{ result_pair[1] }}
-            </a> 
-            <!--<p class="text-xs">Retrieved with score {{ result_pair[0]}}</p>-->
-            <p>
-                {{ result_pair[2] }}
-            </p>
-        </div>
-        <br/>
-        {% endfor %}
+
     </div>
     <!-- Results -->
 
 
     <!-- Pagination -->
-    <div class="flex justify-center pt-[1rem] pb-[2rem] md:pt-[0rem] gap-[2rem] w-full 
+    <div id="pagination" class="flex justify-center pt-[1rem] pb-[2rem] md:pt-[0rem] gap-[2rem] w-full 
                 text-lg text-text dark:text-white">
-        <a href="#" class="font-bold">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
+        
     </div>
     <!-- Pagination -->
 
 </main>
 {%endblock%}
+{% block extrascript %}
+<script type="text/javascript">
+var dataInit = {{ result | tojson }}; 
+var data = JSON.parse(dataInit);// Your data array
+var current_page = 1;
+var records_per_page = 10;
+
+function prevPage() {
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage() {
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    } 
+}
+
+function changePage(page) {
+    var content = document.getElementById("content");
+    var pagination = document.getElementById("pagination");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    content.innerHTML = "";
+
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.length; i++) {
+        var htmlResult = `<div class='px-[1rem] py-[1.5rem] bg-gray-200 
+            group hover:scale-[1.05] hover:bg-gray-300 first:rounded-t-lg last:rounded-b-lg'>
+            <a href='/document/${ data[i][1] }' 
+            class='text-lg font-bold text-[#2a3f55] underline-offset-2 decoration-2 group-hover:text-accent hover:underline'> 
+            Document ${data[i][1]}
+            </a> 
+            <p>
+                ${ data[i][2] }
+            </p>
+        </div>
+        <br/>`
+        content.innerHTML += htmlResult;
+    }
+
+    pagination.innerHTML = "<a href='javascript:prevPage()'>Prev</a> <a href='javascript:nextPage()'>Next</a>";
+
+    if (page == 1) {
+        pagination.style.visibility = "hidden";
+    } else {
+        pagination.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        pagination.style.visibility = "hidden";
+    } else {
+        pagination.style.visibility = "visible";
+    }
+}
+
+function numPages() {
+    return Math.ceil(data.length / records_per_page);
+}
+
+window.onload = function() {
+    changePage(1);
+};
+
+</script>
+{%endblock extrascript%}

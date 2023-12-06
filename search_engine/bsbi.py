@@ -10,14 +10,13 @@ from search_engine.index import InvertedIndexReader, InvertedIndexWriter
 from search_engine.util import IdMap, count_bm25_score, count_tfidf_score, merge_and_sort_posts_and_tfs
 from search_engine.compression import VBEPostings
 from tqdm import tqdm
-
-import nltk
-nltk.download("stopwords")
-
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 
 from operator import itemgetter
+
+import nltk
+nltk.download('stopwords')
 
 
 class BSBIIndex:
@@ -27,30 +26,26 @@ class BSBIIndex:
     term_id_map(IdMap): Untuk mapping terms ke termIDs
     doc_id_map(IdMap): Untuk mapping relative paths dari dokumen (misal,
                     /collection/0/gamma.txt) to docIDs
-    data_file(str): Path ke data
+    data_dir(str): Path ke data
     output_dir(str): Path ke output index files
     postings_encoding: Lihat di compression.py, kandidatnya adalah StandardPostings,
                     VBEPostings, dsb.
     index_name(str): Nama dari file yang berisi inverted index
-    block_size(int): Banyaknya jumlah dokumen yang diproses untuk setiap block
     """
 
-    def __init__(self, data_file, output_dir, postings_encoding, index_name="main_index", block_size=1000):
+    def __init__(self, data_dir, output_dir, postings_encoding, index_name="main_index"):
         self.term_id_map = IdMap()
         self.doc_id_map = IdMap()
-
-        self.data_file = data_file
+        self.data_dir = data_dir
         self.output_dir = output_dir
         self.index_name = index_name
-
-        self.block_size = block_size
         self.postings_encoding = postings_encoding
 
+        # Untuk menyimpan nama-nama file dari semua intermediate inverted index
         self.intermediate_indices = []
 
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
-
 
     def save(self):
         """Menyimpan doc_id_map and term_id_map ke output directory via pickle"""
@@ -105,8 +100,12 @@ class BSBIIndex:
 
         Parameters
         ----------
-        block_num : integer
-            Nomor block yang ingin diparsing
+        block_path : str
+            Relative Path ke directory yang mengandung text files untuk sebuah block.
+
+            CATAT bahwa satu folder di collection dianggap merepresentasikan satu block.
+            Konsep block di soal tugas ini berbeda dengan konsep block yang terkait
+            dengan operating systems.
 
         Returns
         -------
@@ -121,9 +120,9 @@ class BSBIIndex:
         """
         td_pairs = []
 
-        files = os.listdir(os.path.join(self.data_file, block_path))
+        files = os.listdir(os.path.join(self.data_dir, block_path))
         for file in tqdm(sorted(files), leave=False):
-            with open(os.path.join(self.data_file, block_path, file), 'r', encoding='utf-8') as f:
+            with open(os.path.join(self.data_dir, block_path, file), 'r', encoding='utf-8') as f:
                 content = f.read()
                 content = self.pre_processing_text(content)
 
@@ -513,8 +512,7 @@ class BSBIIndex:
 
 if __name__ == "__main__":
 
-    BSBI_instance = BSBIIndex(data_file='search_engine/documents.csv',
-                              block_size=5000,
+    BSBI_instance = BSBIIndex(data_dir='collections',
                               postings_encoding=VBEPostings,
-                              output_dir='search_engine/index')
+                              output_dir='index')
     BSBI_instance.do_indexing()  # memulai indexing!

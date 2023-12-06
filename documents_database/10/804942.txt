@@ -1,0 +1,1 @@
+the two sets of structure factors must be on the same scale it is now normal to also include weighting terms which take into account the estimated errors in the current model where m is a figure of merit which is an estimate of the cosine of the error in the phase and d is a scale factor
