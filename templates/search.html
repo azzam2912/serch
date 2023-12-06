@@ -99,19 +99,20 @@ function changePage(page) {
         content.innerHTML += htmlResult;
     }
 
-    pagination.innerHTML = "<a href='javascript:prevPage()'>Prev</a> <a href='javascript:nextPage()'>Next</a>";
+    var firstPage = `<a href='javascript:changePage(${1})'>First Page</a>`;
+    var prevPage = `<a href='javascript:prevPage()'>Prev</a>`;
+    var currentPage = `<p>${page}</p>`;
+    var nextPage = `<a href='javascript:nextPage()'>Next</a>`;
+    var lastPage = `<a href='javascript:changePage(${numPages()})'>Last Page</a>`;
 
     if (page == 1) {
-        pagination.style.visibility = "hidden";
+        pagination.innerHTML = currentPage + nextPage + lastPage;
+    } else if (page == numPages()) {
+        pagination.innerHTML = firstPage + prevPage + currentPage;
     } else {
-        pagination.style.visibility = "visible";
+        pagination.innerHTML = firstPage + prevPage + currentPage + nextPage + lastPage;
     }
 
-    if (page == numPages()) {
-        pagination.style.visibility = "hidden";
-    } else {
-        pagination.style.visibility = "visible";
-    }
 }
 
 function numPages() {
