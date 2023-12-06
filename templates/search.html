@@ -60,14 +60,14 @@ var data = JSON.parse(dataInit);// Your data array
 var current_page = 1;
 var records_per_page = 10;
 
-function prevPage() {
+function prevPage(current_page) {
     if (current_page > 1) {
         current_page--;
         changePage(current_page);
     }
 }
 
-function nextPage() {
+function nextPage(current_page) {
     if (current_page < numPages()) {
         current_page++;
         changePage(current_page);
@@ -99,11 +99,11 @@ function changePage(page) {
         content.innerHTML += htmlResult;
     }
 
-    var firstPage = `<a href='javascript:changePage(${1})'>First Page</a>`;
-    var prevPage = `<a href='javascript:prevPage()'>Prev</a>`;
+    var firstPage = `<a href='javascript:changePage(${1})' class='hover:underline'>First Page</a>`;
+    var prevPage = `<a href='javascript:prevPage(${page})' class='hover:underline'>Prev</a>`;
     var currentPage = `<p>${page}</p>`;
-    var nextPage = `<a href='javascript:nextPage()'>Next</a>`;
-    var lastPage = `<a href='javascript:changePage(${numPages()})'>Last Page</a>`;
+    var nextPage = `<a href='javascript:nextPage(${page})'  class='hover:underline'>Next</a>`;
+    var lastPage = `<a href='javascript:changePage(${numPages()})'  class='hover:underline'>Last Page</a>`;
 
     if (page == 1) {
         pagination.innerHTML = currentPage + nextPage + lastPage;

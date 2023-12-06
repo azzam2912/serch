@@ -15,8 +15,8 @@ def index():
 def search():
 	query = request.args.get("q")
 	result = SC.retrieve_result(query=query, k=1000)
-	result = dumps(generate_result_slice(result, 150))
-	return render_template("search.html", query=query, result=result, result_len = len(result))
+	result_json = dumps(generate_result_slice(result, 150))
+	return render_template("search.html", query=query, result=result_json, result_len = len(result))
 
 def generate_result_slice(result, n_first_word=50):
     new_result = []
