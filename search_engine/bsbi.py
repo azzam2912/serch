@@ -12,7 +12,8 @@ from search_engine.compression import VBEPostings
 from tqdm import tqdm
 
 import nltk
-nltk.download('stopwords')
+nltk.download("stopwords")
+
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 

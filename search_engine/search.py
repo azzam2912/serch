@@ -6,6 +6,7 @@ from search_engine.compression import VBEPostings
 #                           postings_encoding=VBEPostings,
 #                           output_dir='search_engine/index')
 
+
 # query = 'southern methodist university'
 # result = BSBI_instance.wand(query, "bm25")
 # for (score, doc_id) in result:
