@@ -13,5 +13,5 @@ for index, row in df.iterrows():
     content = row['text_right']
     
     # Write the content to a .txt file named by the id
-    with open(f'text_files/{id}.txt', 'w', encoding='utf-8') as f:
+    with open(f'documents_database/{id}.txt', 'w+', encoding='utf-8') as f:
         f.write(str(content))

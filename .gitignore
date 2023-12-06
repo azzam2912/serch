@@ -1,3 +1,5 @@
+*.csv
+
 # Search Engines
 search_engine/index/intermediate_index_*
 search_engine/wikIR1k
