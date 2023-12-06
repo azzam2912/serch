@@ -85,7 +85,7 @@ class BSBIIndex:
 
         return ' '.join(filtered)
 
-    def parsing_block(self, block_num):
+    def parsing_block(self, block_path):
         """
         Lakukan parsing terhadap text file sehingga menjadi sequence of
         <termID, docID> pairs.
@@ -121,19 +121,17 @@ class BSBIIndex:
         """
         td_pairs = []
 
-        start = block_num * self.block_size
-        end = (block_num+1) * self.block_size 
-        files = self.data[start:end]
+        files = os.listdir(os.path.join(self.data_file, block_path))
+        for file in tqdm(sorted(files), leave=False):
+            with open(os.path.join(self.data_file, block_path, file), 'r', encoding='utf-8') as f:
+                content = f.read()
+                content = self.pre_processing_text(content)
 
-        for file in tqdm(files, desc=f"Block {block_num}", leave=False):
-            real_doc_id, content = file.split(',', maxsplit=1)
-            content = self.pre_processing_text(content)
-
-            doc_id = self.doc_id_map[real_doc_id]
-            terms = content.split()
-            for term in terms:
-                term_id = self.term_id_map[term]
-                td_pairs.append((term_id, doc_id))
+                terms = content.split()
+                doc_id = self.doc_id_map[os.path.join(block_path, file)]
+                for term in terms:
+                    term_id = self.term_id_map[term]
+                    td_pairs.append((term_id, doc_id))
         
         return td_pairs
 
@@ -495,15 +493,10 @@ class BSBIIndex:
         untuk parsing dokumen dan memanggil write_to_index yang melakukan inversion
         di setiap block dan menyimpannya ke index yang baru.
         """
-        with open(self.data_file, 'r', encoding='utf-8') as f:
-            self.data = f.readlines()
-            if (self.data_file.endswith('.csv')):
-                self.data = self.data[1:]
-
-        blocks = len(self.data) // self.block_size + 1
-        for i in tqdm(range(blocks), desc="Indexing", leave=False):
-            td_pairs = self.parsing_block(i)
-            index_id = 'intermediate_index_'+str(i)
+        # loop untuk setiap sub-directory di dalam folder collection (setiap block)
+        for block_dir_relative in tqdm(sorted(next(os.walk(self.data_dir))[1])):
+            td_pairs = self.parsing_block(block_dir_relative)
+            index_id = 'intermediate_index_'+block_dir_relative
             self.intermediate_indices.append(index_id)
             with InvertedIndexWriter(index_id, self.postings_encoding, directory=self.output_dir) as index:
                 self.write_to_index(td_pairs, index)
