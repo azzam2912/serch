@@ -1,0 +1,1 @@
+the key idea is to split network control and data forwarding by using two separate frequency bands the forwarding nodes and the sdn controller exchange link state information and other network control signaling in one of the bands while actual data forwarding takes place in the other band the sdmn approach has many advantages over hardware based mobile network designs

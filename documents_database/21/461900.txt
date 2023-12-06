@@ -1,0 +1,1 @@
+in mysql the term partial index is sometimes used to refer to prefix indexes where only a truncated prefix of each value is stored in the index this is another technique for reducing index size
