@@ -44,7 +44,8 @@
             <a href="/document/{{ result_pair[1] }}" 
                class="text-lg font-bold text-[#2a3f55] underline-offset-2 decoration-2
                       group-hover:text-accent hover:underline">
-                Document {{ result_pair[1] }}
+                {% set docs = result_pair[1].split('/') %}
+                Document {{ docs[1] }}
             </a> 
             <!--<p class="text-xs">Retrieved with score {{ result_pair[0]}}</p>-->
             <p>

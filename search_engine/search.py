@@ -2,32 +2,11 @@ import re
 from search_engine.bsbi import BSBIIndex
 from search_engine.compression import VBEPostings
 
-# BSBI_instance = BSBIIndex(data_file='search_engine/documents.csv',
-#                           postings_encoding=VBEPostings,
-#                           output_dir='search_engine/index')
-
-
-# query = 'southern methodist university'
-# result = BSBI_instance.wand(query, "bm25")
-# for (score, doc_id) in result:
-#     print(f"Document {doc_id} has score {score:.2f}")
-
-# with open('search_engine/doc_dump.txt') as f:
-#     data = f.readlines()
-#     doc_index = int(result[0][1].split('-')[1])-1
-#     print(data[doc_index])
-
 class SearchClass:
-    def __init__(self, data_file='wikIR1k/documents.csv'):
-        self.BSBI_instance = BSBIIndex(data_file=data_file,
-                          postings_encoding=VBEPostings,
-                          output_dir='search_engine/index',
-                          block_size=10000)
+    def __init__(self, data_dir='documents_database', postings_encoding=VBEPostings, output_dir='search_engine/index'):
+        self.BSBI_instance = BSBIIndex(data_dir=data_dir, 
+                                       postings_encoding=postings_encoding,
+                                       output_dir=output_dir)
 
-    def retrieve_result(self, query, ):
-        result = self.BSBI_instance.retrieve_bm25(query)
-        print(result)
-        return result
-    
-    def do_indexing(self):
-        self.BSBI_instance.do_indexing()
+    def retrieve_result(self, query):
+        return self.BSBI_instance.wand(query, "bm25")
