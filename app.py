@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from search_engine.search import SearchClass
 
 app = Flask(__name__)
+SC = SearchClass()
 
 @app.route("/")
 @app.route("/index")
@@ -11,8 +12,7 @@ def index():
 @app.route("/search")
 def search():
 	query = request.args.get("q")
-	search_instance = SearchClass()
-	result = search_instance.retrieve_result(query=query)
+	result = SC.retrieve_result(query=query)
 	result = generate_result_slice(result, 150)
 	return render_template("search.html", query=query, result=result, result_len = len(result))
 
@@ -43,6 +43,7 @@ def document(id):
                            doc_content=doc_content)
 
 if __name__ == '__main__':
-    # bsbi_instance = SearchClass(data_file='search_engine/documents.csv')
+    # bsbi_instance = SearchClass(data_file='search_engine/wikIR1k/documents.csv')
     # bsbi_instance.do_indexing()
+    # bsbi_instance.retrieve_result("malaysia")
 	app.run(debug=False)
